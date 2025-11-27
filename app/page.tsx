@@ -19,7 +19,8 @@ export default function Home() {
     symbol: null,
     template: "ethereal",
     rarity: "Common",
-    font: "inter",
+    font: "quicksand",
+    hideStats: false,
     customColors: {
       background: "",
       title: "",
@@ -201,6 +202,8 @@ export default function Home() {
                     <option value="Common">Common</option>
                     <option value="Uncommon">Uncommon</option>
                     <option value="Rare">Rare</option>
+                    <option value="Resource">Resource</option>
+                    <option value="Item">Item</option>
                   </select>
                 </div>
                 <div>
@@ -213,7 +216,8 @@ export default function Home() {
                     onChange={handleInputChange}
                     className="w-full p-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
                   >
-                    <option value="inter">Inter (Default)</option>
+                    <option value="quicksand">Quicksand (Default)</option>
+                    <option value="inter">Inter</option>
                     <option value="cinzel">Cinzel</option>
                     <option value="playfair">Playfair Display</option>
                     <option value="press-start">Arcade</option>
@@ -282,20 +286,42 @@ export default function Home() {
 
             <hr className="border-gray-100" />
 
-            {/* Basic Info */}
             <div className="space-y-4">
-              <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
-                  Card Name
-                </label>
+              <div className="flex items-center justify-between">
+                <div>
+                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
+                    Card Name
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={cardData.name}
+                    onChange={handleInputChange}
+                    className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                    placeholder="Enter card name..."
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
                 <input
-                  type="text"
-                  name="name"
-                  value={cardData.name}
-                  onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-                  placeholder="Enter card name..."
+                  type="checkbox"
+                  id="hideStats"
+                  checked={cardData.hideStats || false}
+                  onChange={(e) =>
+                    setCardData((prev) => ({
+                      ...prev,
+                      hideStats: e.target.checked,
+                    }))
+                  }
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
                 />
+                <label
+                  htmlFor="hideStats"
+                  className="text-sm font-medium text-gray-700 select-none cursor-pointer"
+                >
+                  Hide Stats
+                </label>
               </div>
 
               <div className="grid grid-cols-2 gap-4">

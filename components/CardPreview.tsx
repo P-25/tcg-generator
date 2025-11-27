@@ -3,6 +3,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { CardData } from "@/types/card";
 import LandboundTemplate from "./LandboundTemplate";
 import HeroTemplate from "./HeroTemplate";
+import Image from "next/image";
 
 interface CardPreviewProps {
   data: CardData;
@@ -72,6 +73,8 @@ export default function CardPreview({
   // Font mapping
   const getFontClass = () => {
     switch (data.font) {
+      case "quicksand":
+        return "font-[family-name:var(--font-quicksand)]";
       case "cinzel":
         return "font-[family-name:var(--font-cinzel)]";
       case "playfair":
@@ -252,8 +255,35 @@ export default function CardPreview({
               : "#bcaaa44D",
           }}
         >
+          {data.symbol && (
+            <div
+              className="absolute top-[10px] right-3 flex justify-center items-center rounded-full bg-transparent border"
+              style={{
+                borderColor: data.customColors?.border
+                  ? `${data.customColors.border}4D`
+                  : "#bcaaa44D",
+              }}
+            >
+              <Image
+                src={data.symbol || ""}
+                alt="Symbol"
+                width={20}
+                height={20}
+              />
+            </div>
+          )}
           <div
-            className="w-full flex justify-center items-center gap-4 opacity-60 text-xs"
+            id="type"
+            className="flex justify-center items-center gap-4 opacity-60 text-xs"
+            style={{ color: data.customColors?.stats }}
+          >
+            <span>{data.rarity}</span>
+          </div>
+          <div
+            id="stats"
+            className={`flex justify-center items-center gap-4 opacity-60 text-xs min-h-[16px] transition-opacity duration-200 ${
+              data.hideStats ? "opacity-0 invisible" : "opacity-60 visible"
+            }`}
             style={{ color: data.customColors?.stats }}
           >
             <span>•</span>

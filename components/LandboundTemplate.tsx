@@ -70,6 +70,8 @@ export default function LandboundTemplate({
   // Font mapping
   const getFontClass = () => {
     switch (data.font) {
+      case "quicksand":
+        return "font-[family-name:var(--font-quicksand)]";
       case "cinzel":
         return "font-[family-name:var(--font-cinzel)]";
       case "playfair":
@@ -161,7 +163,11 @@ export default function LandboundTemplate({
         {/* Stats / Tags (Pills) */}
         <div className="flex flex-col gap-3 items-center w-full">
           {/* Row 1: Health & Attack as Tags */}
-          <div className="flex gap-3 w-full justify-center">
+          <div
+            className={`flex gap-3 w-full justify-center transition-opacity duration-200 ${
+              data.hideStats ? "opacity-0 invisible" : "opacity-100 visible"
+            }`}
+          >
             <div
               className="bg-[#2d1b36] text-[#d4a5ff] px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide flex items-center gap-2 border border-[#4a2b5e] shadow-sm"
               style={{ color: data.customColors?.stats }}

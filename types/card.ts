@@ -8,8 +8,9 @@ export type CardData = {
   imageScale: number; // Zoom level
   symbol: string | null; // The element/class icon
   template: "ethereal" | "mystic" | "landbound" | "hero"; // Predefined styles
-  rarity: "Common" | "Uncommon" | "Rare";
+  rarity: "Common" | "Uncommon" | "Rare" | "Resource" | "Item";
   font: string;
+  hideStats?: boolean;
   customColors?: {
     background?: string;
     title?: string;

@@ -79,6 +79,8 @@ export default function HeroTemplate({
   // Font mapping
   const getFontClass = () => {
     switch (data.font) {
+      case "quicksand":
+        return "font-[family-name:var(--font-quicksand)]";
       case "cinzel":
         return "font-[family-name:var(--font-cinzel)]";
       case "playfair":
@@ -213,7 +215,11 @@ export default function HeroTemplate({
           <span className="text-white uppercase font-bold tracking-wider">
             {data.name}
           </span>
-          <div className="flex gap-4">
+          <div
+            className={`flex gap-4 transition-opacity duration-200 ${
+              data.hideStats ? "opacity-0 invisible" : "opacity-100 visible"
+            }`}
+          >
             {/* Strength */}
             <div className="flex items-center gap-2">
               <svg
