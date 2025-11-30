@@ -137,21 +137,22 @@ export default function Home() {
         TCG Card Generator
       </h1>
 
-      <div className="w-full max-w-7xl grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <div className="w-full max-w-10xl grid grid-cols-1 lg:grid-cols-12 gap-12">
         {/* --- LEFT COLUMN: CONTROLS (Span 4) --- */}
-        <div className="lg:col-span-4 space-y-6">
+        <div className="lg:col-span-8 space-y-6">
           <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-6">
             {/* Template Selector (Thumbnails) */}
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-3">
-                Choose Template
-              </label>
-              <div className="grid grid-cols-3 gap-3">
-                {templates.map((t) => (
-                  <button
-                    key={t.id}
-                    onClick={() => handleTemplateSelect(t.id)}
-                    className={`
+            <div className="flex flex-row gap-4">
+              <div className="w-full">
+                <label className="block text-sm font-semibold text-gray-700 mb-3">
+                  Choose Template
+                </label>
+                <div className="grid grid-cols-3 gap-3">
+                  {templates.map((t) => (
+                    <button
+                      key={t.id}
+                      onClick={() => handleTemplateSelect(t.id)}
+                      className={`
                       relative h-20 rounded-lg border-2 transition-all duration-200 overflow-hidden flex flex-col items-center justify-center gap-1 cursor-pointer
                       ${
                         cardData.template === t.id
@@ -160,27 +161,122 @@ export default function Home() {
                       }
                       ${t.color}
                     `}
-                  >
-                    {/* Mini representation */}
-                    <div
-                      className={`w-full h-2 ${
-                        t.id === "mystic" ? "bg-[#7aa2f7]" : "bg-[#8e5e5e]"
-                      }`}
-                    ></div>
-                    <span
-                      className={`text-xs font-medium ${
-                        t.id === "mystic" || t.id === "hero"
-                          ? "text-white"
-                          : "text-gray-800"
-                      }`}
                     >
-                      {t.name}
-                    </span>
-                  </button>
-                ))}
+                      {/* Mini representation */}
+                      <div
+                        className={`w-full h-2 ${
+                          t.id === "mystic" ? "bg-[#7aa2f7]" : "bg-[#8e5e5e]"
+                        }`}
+                      ></div>
+                      <span
+                        className={`text-xs font-medium ${
+                          t.id === "mystic" || t.id === "hero"
+                            ? "text-white"
+                            : "text-gray-800"
+                        }`}
+                      >
+                        {t.name}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="w-full">
+                <label className="block text-sm font-semibold text-gray-700 mb-3">
+                  Choose Files
+                </label>
+                <div className="grid grid-cols-3 gap-3">
+                  <label
+                    className={`flex flex-col items-center justify-center w-full h-20 border-2 border-dashed ${
+                      cardData.image
+                        ? "border-blue-400 bg-blue-50"
+                        : "border-gray-300 hover:bg-gray-50"
+                    } rounded-lg cursor-pointer transition-colors overflow-hidden relative group`}
+                  >
+                    {cardData.image ? (
+                      <>
+                        <img
+                          src={cardData.image}
+                          alt="Preview"
+                          className="w-full h-full object-cover opacity-80 group-hover:opacity-40 transition-opacity"
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity font-medium text-blue-600 text-xs">
+                          Change Image
+                        </div>
+                      </>
+                    ) : (
+                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                        <svg
+                          className="w-6 h-6 text-gray-400 mb-1"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                          ></path>
+                        </svg>
+                        <p className="text-[10px] text-gray-500">
+                          Upload Image
+                        </p>
+                      </div>
+                    )}
+                    <input
+                      type="file"
+                      className="hidden"
+                      accept="image/*"
+                      onChange={(e) => handleImageUpload(e, "image")}
+                    />
+                  </label>
+                  <label
+                    className={`flex flex-col items-center justify-center w-full h-20 border-2 border-dashed ${
+                      cardData.symbol
+                        ? "border-blue-400 bg-blue-50"
+                        : "border-gray-300 hover:bg-gray-50"
+                    } rounded-lg cursor-pointer transition-colors overflow-hidden relative group`}
+                  >
+                    {cardData.symbol ? (
+                      <>
+                        <img
+                          src={cardData.symbol}
+                          alt="Preview"
+                          className="w-full h-full object-contain p-2 opacity-80 group-hover:opacity-40 transition-opacity"
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity font-medium text-blue-600 text-xs">
+                          Change Icon
+                        </div>
+                      </>
+                    ) : (
+                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                        <svg
+                          className="w-6 h-6 text-gray-400 mb-1"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M12 4v16m8-8H4"
+                          ></path>
+                        </svg>
+                        <p className="text-[10px] text-gray-500">Upload Icon</p>
+                      </div>
+                    )}
+                    <input
+                      type="file"
+                      className="hidden"
+                      accept="image/*"
+                      onChange={(e) => handleImageUpload(e, "symbol")}
+                    />
+                  </label>
+                </div>
               </div>
             </div>
-
             <hr className="border-gray-100" />
 
             {/* Card Details: Rarity & Font */}
@@ -188,109 +284,10 @@ export default function Home() {
               <label className="block text-sm font-semibold text-gray-700 mb-3">
                 Card Details
               </label>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-4 gap-4">
                 <div>
                   <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
-                    Rarity
-                  </label>
-                  <select
-                    name="rarity"
-                    value={cardData.rarity}
-                    onChange={handleInputChange}
-                    className="w-full p-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
-                  >
-                    <option value="Common">Common</option>
-                    <option value="Uncommon">Uncommon</option>
-                    <option value="Rare">Rare</option>
-                    <option value="Resource">Resource</option>
-                    <option value="Item">Item</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
-                    Font
-                  </label>
-                  <select
-                    name="font"
-                    value={cardData.font}
-                    onChange={handleInputChange}
-                    className="w-full p-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
-                  >
-                    <option value="quicksand">Quicksand (Default)</option>
-                    <option value="inter">Inter</option>
-                    <option value="cinzel">Cinzel</option>
-                    <option value="playfair">Playfair Display</option>
-                    <option value="press-start">Arcade</option>
-                    <option value="vt323">Pixel</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <hr className="border-gray-100" />
-
-            {/* Custom Colors */}
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
-                  Card Color
-                </label>
-                <div className="flex items-center gap-2 p-2 bg-gray-50 border border-gray-200 rounded-lg">
-                  <input
-                    type="color"
-                    name="background"
-                    value={cardData.customColors?.background || "#ffffff"}
-                    onChange={handleColorChange}
-                    className="w-8 h-8 rounded cursor-pointer border-none p-0 bg-transparent"
-                  />
-                  <span className="text-xs text-gray-500 font-mono">
-                    {cardData.customColors?.background || "Default"}
-                  </span>
-                </div>
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
-                  Text Color
-                </label>
-                <div className="flex items-center gap-2 p-2 bg-gray-50 border border-gray-200 rounded-lg">
-                  <input
-                    type="color"
-                    name="description"
-                    value={cardData.customColors?.description || "#000000"}
-                    onChange={handleColorChange}
-                    className="w-8 h-8 rounded cursor-pointer border-none p-0 bg-transparent"
-                  />
-                  <span className="text-xs text-gray-500 font-mono">
-                    {cardData.customColors?.description || "Default"}
-                  </span>
-                </div>
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
-                  Border Color
-                </label>
-                <div className="flex items-center gap-2 p-2 bg-gray-50 border border-gray-200 rounded-lg">
-                  <input
-                    type="color"
-                    name="border"
-                    value={cardData.customColors?.border || "#bcaaa4"}
-                    onChange={handleColorChange}
-                    className="w-8 h-8 rounded cursor-pointer border-none p-0 bg-transparent"
-                  />
-                  <span className="text-xs text-gray-500 font-mono">
-                    {cardData.customColors?.border || "Default"}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <hr className="border-gray-100" />
-
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
-                    Card Name
+                    Card Name <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -301,8 +298,63 @@ export default function Home() {
                     placeholder="Enter card name..."
                   />
                 </div>
+                <div>
+                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
+                    Card Color
+                  </label>
+                  <div className="flex items-center gap-2 p-2 bg-gray-50 border border-gray-200 rounded-lg">
+                    <input
+                      type="color"
+                      name="background"
+                      value={cardData.customColors?.background || "#ffffff"}
+                      onChange={handleColorChange}
+                      className="w-8 h-8 rounded cursor-pointer border-none p-0 bg-transparent"
+                    />
+                    <span className="text-xs text-gray-500 font-mono">
+                      {cardData.customColors?.background || "Default"}
+                    </span>
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
+                    Text Color
+                  </label>
+                  <div className="flex items-center gap-2 p-2 bg-gray-50 border border-gray-200 rounded-lg">
+                    <input
+                      type="color"
+                      name="description"
+                      value={cardData.customColors?.description || "#000000"}
+                      onChange={handleColorChange}
+                      className="w-8 h-8 rounded cursor-pointer border-none p-0 bg-transparent"
+                    />
+                    <span className="text-xs text-gray-500 font-mono">
+                      {cardData.customColors?.description || "Default"}
+                    </span>
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
+                    Border Color
+                  </label>
+                  <div className="flex items-center gap-2 p-2 bg-gray-50 border border-gray-200 rounded-lg">
+                    <input
+                      type="color"
+                      name="border"
+                      value={cardData.customColors?.border || "#bcaaa4"}
+                      onChange={handleColorChange}
+                      className="w-8 h-8 rounded cursor-pointer border-none p-0 bg-transparent"
+                    />
+                    <span className="text-xs text-gray-500 font-mono">
+                      {cardData.customColors?.border || "Default"}
+                    </span>
+                  </div>
+                </div>
               </div>
+            </div>
 
+            <hr className="border-gray-100" />
+
+            <div className="space-y-4">
               <div className="flex items-center gap-2">
                 <input
                   type="checkbox"
@@ -314,7 +366,7 @@ export default function Home() {
                       hideStats: e.target.checked,
                     }))
                   }
-                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
                 />
                 <label
                   htmlFor="hideStats"
@@ -324,7 +376,7 @@ export default function Home() {
                 </label>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-4 gap-4">
                 <div>
                   <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
                     Health
@@ -349,6 +401,41 @@ export default function Home() {
                     className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
                   />
                 </div>
+                <div>
+                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
+                    Rarity
+                  </label>
+                  <select
+                    name="rarity"
+                    value={cardData.rarity}
+                    onChange={handleInputChange}
+                    className="w-full p-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm cursor-pointer"
+                  >
+                    <option value="Common">Common</option>
+                    <option value="Uncommon">Uncommon</option>
+                    <option value="Rare">Rare</option>
+                    <option value="Resource">Resource</option>
+                    <option value="Item">Item</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
+                    Font
+                  </label>
+                  <select
+                    name="font"
+                    value={cardData.font}
+                    onChange={handleInputChange}
+                    className="w-full p-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm cursor-pointer"
+                  >
+                    <option value="quicksand">Quicksand (Default)</option>
+                    <option value="inter">Inter</option>
+                    <option value="cinzel">Cinzel</option>
+                    <option value="playfair">Playfair Display</option>
+                    <option value="press-start">Arcade</option>
+                    <option value="vt323">Pixel</option>
+                  </select>
+                </div>
               </div>
             </div>
 
@@ -367,110 +454,10 @@ export default function Home() {
               />
             </div>
 
-            {/* Uploads */}
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
-                  Main Art
-                </label>
-                <label
-                  className={`flex flex-col items-center justify-center w-full h-24 border-2 border-dashed ${
-                    cardData.image
-                      ? "border-blue-400 bg-blue-50"
-                      : "border-gray-300 hover:bg-gray-50"
-                  } rounded-lg cursor-pointer transition-colors overflow-hidden relative group`}
-                >
-                  {cardData.image ? (
-                    <>
-                      <img
-                        src={cardData.image}
-                        alt="Preview"
-                        className="w-full h-full object-cover opacity-80 group-hover:opacity-40 transition-opacity"
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity font-medium text-blue-600 text-xs">
-                        Change Image
-                      </div>
-                    </>
-                  ) : (
-                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                      <svg
-                        className="w-6 h-6 text-gray-400 mb-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                        ></path>
-                      </svg>
-                      <p className="text-[10px] text-gray-500">Upload Image</p>
-                    </div>
-                  )}
-                  <input
-                    type="file"
-                    className="hidden"
-                    accept="image/*"
-                    onChange={(e) => handleImageUpload(e, "image")}
-                  />
-                </label>
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
-                  Symbol Icon
-                </label>
-                <label
-                  className={`flex flex-col items-center justify-center w-full h-24 border-2 border-dashed ${
-                    cardData.symbol
-                      ? "border-blue-400 bg-blue-50"
-                      : "border-gray-300 hover:bg-gray-50"
-                  } rounded-lg cursor-pointer transition-colors overflow-hidden relative group`}
-                >
-                  {cardData.symbol ? (
-                    <>
-                      <img
-                        src={cardData.symbol}
-                        alt="Preview"
-                        className="w-full h-full object-contain p-2 opacity-80 group-hover:opacity-40 transition-opacity"
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity font-medium text-blue-600 text-xs">
-                        Change Icon
-                      </div>
-                    </>
-                  ) : (
-                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                      <svg
-                        className="w-6 h-6 text-gray-400 mb-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M12 4v16m8-8H4"
-                        ></path>
-                      </svg>
-                      <p className="text-[10px] text-gray-500">Upload Icon</p>
-                    </div>
-                  )}
-                  <input
-                    type="file"
-                    className="hidden"
-                    accept="image/*"
-                    onChange={(e) => handleImageUpload(e, "symbol")}
-                  />
-                </label>
-              </div>
-            </div>
-
             {/* Download Button */}
             <button
               onClick={downloadCard}
-              className="w-full bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-4 rounded-xl shadow-lg transform transition hover:-translate-y-0.5 active:translate-y-0"
+              className="w-full bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-4 rounded-xl shadow-lg transform transition hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
             >
               Download High-Res Card
             </button>
@@ -478,7 +465,7 @@ export default function Home() {
         </div>
 
         {/* --- RIGHT COLUMN: PREVIEW (Span 8) --- */}
-        <div className="lg:col-span-8 flex flex-col items-center justify-start pt-8 bg-gray-200/50 rounded-3xl border border-gray-200/60 min-h-[600px]">
+        <div className="lg:col-span-4 flex flex-col items-center justify-start pt-8 bg-gray-200/50 rounded-3xl border border-gray-200/60 min-h-[600px]">
           <div className="mb-6 flex items-center gap-2 text-gray-500 text-sm uppercase tracking-wide font-semibold">
             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
             Live Preview
