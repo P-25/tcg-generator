@@ -1,6 +1,7 @@
 "use client";
 import React, { useRef, useState, useEffect } from "react";
 import { CardData } from "@/types/card";
+import Image from "next/image";
 
 interface LandboundTemplateProps {
   data: CardData;
@@ -88,7 +89,7 @@ export default function LandboundTemplate({
   return (
     <div
       ref={cardRef}
-      className={`w-[320px] h-[480px] relative flex flex-col overflow-hidden select-none bg-black text-white rounded-2xl shadow-2xl border border-gray-800 ${getFontClass()}`}
+      className={`w-[320px] h-[480px] relative flex flex-col justify-end overflow-hidden select-none bg-black text-white rounded-2xl shadow-2xl border border-gray-800 ${getFontClass()}`}
       style={{
         backgroundColor: data.customColors?.background || "#000000",
         borderColor:
@@ -125,34 +126,36 @@ export default function LandboundTemplate({
             />
           </div>
         ) : (
-          <div className="w-full h-full flex flex-col items-center justify-center text-gray-600 text-sm p-4 text-center bg-gray-900">
+          <div className="w-full h-full flex flex-col items-center justify-center text-gray-600 text-sm p-4 text-center bg-gray-600">
             <span>Drag & Drop Image Here</span>
           </div>
         )}
-
-        {/* Gradient Overlay for Text Readability (Bottom fade) */}
-        <div className="absolute inset-0 bg-linear-to-t from-black via-black/80 to-transparent pointer-events-none z-10 h-full flex flex-col justify-end pb-4" />
       </div>
 
       {/* --- CONTENT LAYER --- */}
-      <div className="relative z-20 flex flex-col justify-end h-full p-6 pointer-events-none">
+      <div className="relative z-20 flex flex-col justify-end h-[50%] p-6 pointer-events-none bg-linear-to-t from-black via-black-20 to-transparent">
+        {/* Gradient Overlay for Text Readability (Bottom fade) */}
+
         {/* Title */}
         <div className="mb-4 text-center">
           <h2
-            className="text-3xl font-bold tracking-wide text-white drop-shadow-md font-serif"
+            className="text-3xl font-bold tracking-wide text-white drop-shadow-md"
             style={{ color: data.customColors?.title || "#ffffff" }}
           >
-            {data.name || "Landbound"}
+            {data.name}
           </h2>
-          <div className="text-[10px] uppercase tracking-[0.2em] text-gray-400 mt-1">
-            ®
+          <div
+            className="text-[10px] uppercase tracking-[0.2em] opacity-80"
+            style={{ color: data.customColors?.title || "#ffffff" }}
+          >
+            {data.rarity}
           </div>
         </div>
 
         {/* Description */}
         <div className="mb-8 text-center">
           <p
-            className="text-sm text-gray-300 leading-relaxed font-sans opacity-90"
+            className="text-sm text-gray-300 leading-relaxed opacity-90"
             style={{ color: data.customColors?.description || "#d1d5db" }}
           >
             {data.description ||
@@ -160,35 +163,40 @@ export default function LandboundTemplate({
           </p>
         </div>
 
-        {/* Stats / Tags (Pills) */}
-        <div className="flex flex-col gap-3 items-center w-full">
-          {/* Row 1: Health & Attack as Tags */}
+        {data.symbol && (
           <div
-            className={`flex gap-3 w-full justify-center transition-opacity duration-200 ${
-              data.hideStats ? "opacity-0 invisible" : "opacity-100 visible"
-            }`}
+            className="absolute bottom-2.5 right-3 flex justify-center items-center rounded-full bg-transparent border"
+            style={{
+              borderColor: data.customColors?.border
+                ? `${data.customColors.border}4D`
+                : "#bcaaa44D",
+            }}
           >
-            <div
-              className="bg-[#2d1b36] text-[#d4a5ff] px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide flex items-center gap-2 border border-[#4a2b5e] shadow-sm"
-              style={{ color: data.customColors?.stats }}
-            >
-              <span>⚡</span>
-              <span>{data.attack} Attack</span>
-            </div>
-            <div
-              className="bg-[#1b1f36] text-[#a5b4ff] px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide flex items-center gap-2 border border-[#2b345e] shadow-sm"
-              style={{ color: data.customColors?.stats }}
-            >
-              <span>🛡️</span>
-              <span>{data.health} Health</span>
-            </div>
+            <Image
+              src={data.symbol || ""}
+              alt="Symbol"
+              width={20}
+              height={20}
+            />
           </div>
-
-          {/* Row 2: Extra Tag (Static for aesthetic match or derived) */}
-          <div className="bg-[#1a2035] text-[#5e7ce2] px-6 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide border border-[#2a3655] shadow-sm">
-            <span>✦ Special Ability</span>
+        )}
+        {/* Stats */}
+        <div className="flex flex-col gap-3 items-center w-full">
+          <div
+            id="stats"
+            className={`flex justify-center items-center gap-4 opacity-60 text-xs min-h-[16px] transition-opacity duration-200 ${
+              data.hideStats ? "opacity-0 invisible" : "opacity-60 visible"
+            }`}
+            style={{ color: data.customColors?.stats }}
+          >
+            <span>•</span>
+            <span>{data.health} HP</span>
+            <span>•</span>
+            <span>{data.attack} ATK</span>
+            <span>•</span>
           </div>
         </div>
+        {/* <div className="absolute inset-0 bg-linear-to-t from-black via-black-20 to-transparent pointer-events-none z-10 h-[50%] bottom-1" /> */}
       </div>
 
       {/* Border Overlay */}
